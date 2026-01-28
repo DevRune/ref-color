@@ -55,9 +55,19 @@ function renderRefColors() {
             onchange="toggleAvailable('${c.name}')">
           ${c.name}
         </label>
+        <button onclick="deleteRefColor('${c.name}')">❌ Verwijder</button>
       </div>
     `;
   });
+}
+
+function deleteRefColor(name) {
+  if (!confirm(`Weet je zeker dat je ${name} wilt verwijderen?`)) return;
+  refColors = refColors.filter(c => c.name !== name);
+  save();
+  renderRefColors();
+  renderTeamRules(); // update regels met verwijderde kleur
+  renderTeamSelectors();
 }
 
 /* ======================
@@ -86,36 +96,43 @@ function toggleRule(teamColor, type, refColor) {
 }
 
 function renderTeamRules() {
-  teamRulesContainer = document.getElementById("teamRules");
+  const teamRulesContainer = document.getElementById("teamRules");
   teamRulesContainer.innerHTML = "";
 
   Object.keys(teamRules).forEach(tc => {
     teamRulesContainer.innerHTML += `
       <div class="item">
-        <b>${tc}</b>
-
-        <div class="small">Soft-disable referee kleuren</div>
-        ${refColors.map(r => `
-          <label class="small">
-            <input type="checkbox"
-              ${teamRules[tc].softDisable.includes(r.name) ? "checked" : ""}
-              onchange="toggleRule('${tc}','softDisable','${r.name}')">
-            ${r.name}
-          </label>
-        `).join("")}
-
-        <div class="small">Hard-disable referee kleuren</div>
-        ${refColors.map(r => `
-          <label class="small">
-            <input type="checkbox"
-              ${teamRules[tc].hardDisable.includes(r.name) ? "checked" : ""}
-              onchange="toggleRule('${tc}','hardDisable','${r.name}')">
-            ${r.name}
-          </label>
-        `).join("")}
+        <b onclick="toggleTeamRules('${tc}')" style="cursor:pointer;">${tc} ▼</b>
+        <div id="rules-${tc}" style="display:block; margin-left:10px;">
+          <div class="small">Soft-disable referee kleuren</div>
+          ${refColors.map(r => `
+            <label class="small">
+              <input type="checkbox"
+                ${teamRules[tc].softDisable.includes(r.name) ? "checked" : ""}
+                onchange="toggleRule('${tc}','softDisable','${r.name}')">
+              ${r.name}
+            </label>
+          `).join("")}
+          <div class="small">Hard-disable referee kleuren</div>
+          ${refColors.map(r => `
+            <label class="small">
+              <input type="checkbox"
+                ${teamRules[tc].hardDisable.includes(r.name) ? "checked" : ""}
+                onchange="toggleRule('${tc}','hardDisable','${r.name}')">
+              ${r.name}
+            </label>
+          `).join("")}
+        </div>
       </div>
     `;
   });
+}
+
+// Toggle functie
+function toggleTeamRules(tc) {
+  const el = document.getElementById(`rules-${tc}`);
+  if (!el) return;
+  el.style.display = el.style.display === "none" ? "block" : "none";
 }
 
 /* ======================
@@ -171,4 +188,5 @@ function bepaalKleur() {
     ℹ️ Beschikbare opties: ${alleOpties} <br>
     ℹ️ Reden: ${reden}
   `;
+
 }
