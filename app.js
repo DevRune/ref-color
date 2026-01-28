@@ -167,7 +167,7 @@ function renderTeamSelectors() {
 }
 
 function renderKeeperSelectors() {
-  [teamA, teamB].forEach(sel => {
+  [keeperA, keeperB].forEach(sel => {
     sel.innerHTML = "";
     Object.keys(teamRules).forEach(tc => {
       sel.innerHTML += `<option>${tc}</option>`;
@@ -218,4 +218,5 @@ function bepaalKleur() {
     ℹ️ Hard: ${hard}
   `;
 }
+
 
