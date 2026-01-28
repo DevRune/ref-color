@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheidsrechter Kleurkeuze</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>⚽ Scheidsrechter Kleurkeuze</h1>
+
+<section>
+  <h2>Wedstrijd</h2>
+
+  <label>Team A kleur</label>
+  <select id="teamA"></select>
+
+  <label>Team B kleur</label>
+  <select id="teamB"></select>
+
+  <button onclick="bepaalKleur()">Bepaal referee kleur</button>
+
+  <div id="advies"></div>
+</section>
+
+<section>
+  <h2>Referee shirts (vandaag bij me)</h2>
+
+  <input id="refName" placeholder="Nieuwe referee kleur">
+  <button onclick="addRefColor()">Toevoegen</button>
+
+  <div id="refList"></div>
+</section>
+
+<section>
+  <h2>Teamkleur regels</h2>
+
+  <input id="teamColorName" placeholder="Nieuwe teamkleur">
+  <button onclick="addTeamColor()">Toevoegen</button>
+
+  <div id="teamRules"></div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
