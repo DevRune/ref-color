@@ -18,6 +18,7 @@ function save() {
 ====================== */
 
 renderRefColors();
+renderKeeperSelectors();
 renderTeamSelectors();
 renderTeamRules();
 
@@ -164,6 +165,18 @@ function renderTeamSelectors() {
     });
   });
 }
+
+function renderKeeperSelectors() {
+  const keepers = [keeperA, keeperB];
+  keepers.forEach(sel => {
+    const current = sel.value; // behoud huidige selectie
+    sel.innerHTML = `<option value="">-</option>`; // lege optie
+    refColors.forEach(c => {
+      sel.innerHTML += `<option value="${c.name}" ${c.name === current ? "selected" : ""}>${c.name}</option>`;
+    });
+  });
+}
+
 
 function bepaalKleur() {
   const teams = [teamA.value, teamB.value];
