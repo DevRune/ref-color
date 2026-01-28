@@ -208,12 +208,11 @@ function bepaalKleur() {
 
   const gekozen = kiesUit[Math.floor(Math.random() * kiesUit.length)];
   let alleOpties = kiesUit.map(c => c.name).join(", ");
+  let reden = perfect.length > 0 ? "geen soft conflict" : "soft conflict aanwezig";
 
   advies.innerHTML = `
     ✅ <b>Advies:</b> ${gekozen.name} <br>
     ℹ️ Beschikbare opties: ${alleOpties} <br>
+    ℹ️ Reden: ${reden}
   `;
 }
-
-
-
