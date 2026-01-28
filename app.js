@@ -202,5 +202,8 @@ function bepaalKleur() {
   advies.innerHTML = `
     ✅ <b>Advies:</b> ${gekozen.name} <br>
     ℹ️ Beschikbare opties: ${alleOpties} <br>
+    ℹ️ Reden: ${reden}
+    ℹ️ Soft: ${soft}
+    ℹ️ Hard: ${hard}
   `;
 }
