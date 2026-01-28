@@ -134,24 +134,6 @@ function renderTeamRules() {
               ${r.name}
             </label>
           `).join("")}
-          <div class="small">Keeper soft-disable</div>
-          ${refColors.map(r => `
-            <label class="small">
-              <input type="checkbox"
-                ${teamRules[tc].keeperSoft.includes(r.name) ? "checked" : ""}
-                onchange="toggleRule('${tc}','keeperSoft','${r.name}')">
-              ${r.name}
-            </label>
-          `).join("")}
-          <div class="small">Keeper hard-disable</div>
-          ${refColors.map(r => `
-            <label class="small">
-              <input type="checkbox"
-                ${teamRules[tc].keeperHard.includes(r.name) ? "checked" : ""}
-                onchange="toggleRule('${tc}','keeperHard','${r.name}')">
-              ${r.name}
-            </label>
-          `).join("")}
         </div>
       </div>
     `;
