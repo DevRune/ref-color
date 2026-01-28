@@ -170,21 +170,20 @@ function bepaalKleur() {
   let soft = new Set();
   let hard = new Set();
 
-  // Verzamel regels van teams + keeper
+  // Verzamel team rules
   teams.forEach(tc => {
     const rules = teamRules[tc];
     if (!rules) return;
 
-    // normale team rules
     rules.softDisable.forEach(c => soft.add(c));
     rules.hardDisable.forEach(c => hard.add(c));
-
-    // keeper rules
-    rules.keeperHard?.forEach(c => soft.add(c)); // keeper hard → soft
-    // keeperSoft heeft geen effect
   });
 
-  // filter beschikbare kleuren
+  // Keeperkleuren soft-disabled
+  const keeperColors = [keeperA.value.trim(), keeperB.value.trim()].filter(c => c);
+  keeperColors.forEach(c => soft.add(c));
+
+  // Filter beschikbare ref-kleuren
   let beschikbaar = refColors.filter(c => c.available && !hard.has(c.name));
 
   if (beschikbaar.length === 0) {
@@ -192,6 +191,7 @@ function bepaalKleur() {
     return;
   }
 
+  // Perfecte kleuren = geen soft conflict
   let perfect = beschikbaar.filter(c => !soft.has(c.name));
   let kiesUit = perfect.length > 0 ? perfect : beschikbaar;
 
@@ -201,6 +201,6 @@ function bepaalKleur() {
 
   advies.innerHTML = `
     ✅ <b>Advies:</b> ${gekozen.name} <br>
-    ℹ️ Beschikbare opties: ${alleOpties}
+    ℹ️ Beschikbare opties: ${alleOpties} <br>
   `;
 }
