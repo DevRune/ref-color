@@ -167,12 +167,10 @@ function renderTeamSelectors() {
 }
 
 function renderKeeperSelectors() {
-  const keepers = [keeperA, keeperB];
-  keepers.forEach(sel => {
-    const current = sel.value; // behoud huidige selectie
-    sel.innerHTML = `<option value="">-</option>`; // lege optie
-    refColors.forEach(c => {
-      sel.innerHTML += `<option value="${c.name}" ${c.name === current ? "selected" : ""}>${c.name}</option>`;
+  [teamA, teamB].forEach(sel => {
+    sel.innerHTML = "";
+    Object.keys(teamRules).forEach(tc => {
+      sel.innerHTML += `<option>${tc}</option>`;
     });
   });
 }
@@ -220,3 +218,4 @@ function bepaalKleur() {
     ℹ️ Hard: ${hard}
   `;
 }
+
