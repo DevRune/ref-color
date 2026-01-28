@@ -2,11 +2,23 @@
    DATA + STORAGE
 ====================== */
 
-const DEFAULT_REF_COLORS = [];
+const DEFAULT_REF_COLORS = [
+  { name: "Oranje", available: true }
+];
+
 const DEFAULT_TEAM_RULES = {};
 
 let refColors = JSON.parse(localStorage.getItem("refColors")) || DEFAULT_REF_COLORS;
 let teamRules = JSON.parse(localStorage.getItem("teamRules")) || DEFAULT_TEAM_RULES;
+const refName = document.getElementById("refName");
+const refList = document.getElementById("refList");
+const teamA = document.getElementById("teamA");
+const teamB = document.getElementById("teamB");
+const keeperA = document.getElementById("keeperA");
+const keeperB = document.getElementById("keeperB");
+const advies = document.getElementById("advies");
+const teamColorName = document.getElementById("teamColorName");
+
 
 function save() {
   localStorage.setItem("refColors", JSON.stringify(refColors));
@@ -212,7 +224,6 @@ function bepaalKleur() {
 
   advies.innerHTML = `
     ✅ <b>Advies:</b> ${gekozen.name} <br>
-    ℹ️ Beschikbare opties: ${alleOpties} <br>
-    ℹ️ Reden: ${reden}
+    ℹ️ Beschikbare opties: ${alleOpties}
   `;
 }
