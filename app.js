@@ -77,7 +77,7 @@ function addTeamColor() {
   const name = teamColorName.value.trim();
   if (!name || teamRules[name]) return;
 
-  teamRules[name] = { softDisable: [], hardDisable: [] };
+  teamRules[name] = { softDisable: [], hardDisable: [], keeperSoft: [], keeperHard: [] };
   teamColorName.value = "";
   save();
   renderTeamRules();
@@ -121,6 +121,24 @@ function renderTeamRules() {
               ${r.name}
             </label>
           `).join("")}
+          <div class="small">Keeper soft-disable</div>
+          ${refColors.map(r => `
+            <label class="small">
+              <input type="checkbox"
+                ${teamRules[tc].keeperSoft.includes(r.name) ? "checked" : ""}
+                onchange="toggleRule('${tc}','keeperSoft','${r.name}')">
+              ${r.name}
+            </label>
+          `).join("")}
+          <div class="small">Keeper hard-disable</div>
+          ${refColors.map(r => `
+            <label class="small">
+              <input type="checkbox"
+                ${teamRules[tc].keeperHard.includes(r.name) ? "checked" : ""}
+                onchange="toggleRule('${tc}','keeperHard','${r.name}')">
+              ${r.name}
+            </label>
+          `).join("")}
         </div>
       </div>
     `;
@@ -139,4 +157,50 @@ function toggleTeamRules(tc) {
 ====================== */
 
 function renderTeamSelectors() {
-  [teamA, team]()
+  [teamA, teamB].forEach(sel => {
+    sel.innerHTML = "";
+    Object.keys(teamRules).forEach(tc => {
+      sel.innerHTML += `<option>${tc}</option>`;
+    });
+  });
+}
+
+function bepaalKleur() {
+  const teams = [teamA.value, teamB.value];
+  let soft = new Set();
+  let hard = new Set();
+
+  // Verzamel regels van teams + keeper
+  teams.forEach(tc => {
+    const rules = teamRules[tc];
+    if (!rules) return;
+
+    // normale team rules
+    rules.softDisable.forEach(c => soft.add(c));
+    rules.hardDisable.forEach(c => hard.add(c));
+
+    // keeper rules
+    rules.keeperHard?.forEach(c => soft.add(c)); // keeper hard → soft
+    // keeperSoft heeft geen effect
+  });
+
+  // filter beschikbare kleuren
+  let beschikbaar = refColors.filter(c => c.available && !hard.has(c.name));
+
+  if (beschikbaar.length === 0) {
+    advies.innerHTML = `❌ Geen geschikte referee kleur`;
+    return;
+  }
+
+  let perfect = beschikbaar.filter(c => !soft.has(c.name));
+  let kiesUit = perfect.length > 0 ? perfect : beschikbaar;
+
+  const gekozen = kiesUit[Math.floor(Math.random() * kiesUit.length)];
+  let alleOpties = kiesUit.map(c => c.name).join(", ");
+  let reden = perfect.length > 0 ? "geen soft conflict" : "soft conflict aanwezig";
+
+  advies.innerHTML = `
+    ✅ <b>Advies:</b> ${gekozen.name} <br>
+    ℹ️ Beschikbare opties: ${alleOpties}
+  `;
+}
